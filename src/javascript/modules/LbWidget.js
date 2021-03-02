@@ -1458,11 +1458,21 @@ export const LbWidget = function (options) {
       });
     }
   };
-
+  this.onUIChange = function (el) {
+    var _this = this;
+    setTimeout(() => {
+      var currentWidgetStatus = new CustomEvent('onWidgetChange', {
+        detail: {
+          mainWidget: _this.settings.mainWidget.settings.active,
+          miniScoreBoard: _this.settings.miniScoreBoard.settings.active
+        }
+      });
+      _this.settings.bindContainer.dispatchEvent(currentWidgetStatus);
+    }, 300);
+  };
   var loadCompetitionListAjax = new cLabs.Ajax();
   this.eventHandlers = function (el) {
     var _this = this;
-
     // mini scoreboard opt-in action
     if (hasClass(el, 'cl-widget-ms-optin-action') && !hasClass(el, 'checking')) {
       addClass(el, 'checking');
@@ -1669,6 +1679,8 @@ export const LbWidget = function (options) {
     } else if (hasClass(el, 'cl-accordion-label')) {
       _this.settings.mainWidget.accordionNavigation(el);
     }
+    // Dispatch Custom Event
+    this.onUIChange();
   };
 
   this.eventListeners = function () {
