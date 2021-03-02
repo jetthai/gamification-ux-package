@@ -1,5 +1,5 @@
 {
-  "name": "@competitionlabs/gamification-ux-package",
+  "name": "@jetthai/gamification-ux-package",
   "version": "1.0.11",
   "description": "Our Gamification UX package enables you to quickly roll out your gamification experience. The package allows you to implement tournament leaderboards, achievements, missions, rewards and a message inbox in a most modular way.",
   "scripts": {
@@ -31,7 +31,8 @@
     "test:watch": "jest --coverage --watch",
     "test:coverage": "webpack-dev-server --open --port 9002 --contentBase ./coverage/lcov-report",
     "jsdoc": "rimraf docs && jsdoc -c jsdoc.json",
-    "jsdoc:open": "webpack-dev-server --open --port 9003 --contentBase ./docs"
+    "jsdoc:open": "webpack-dev-server --open --port 9003 --contentBase ./docs",
+    "release": "standard-version && git push --follow-tags origin master && npm publish"
   },
   "author": "COMPETITION LABS LTD",
   "license": "ISC",
