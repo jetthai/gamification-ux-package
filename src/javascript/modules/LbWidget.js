@@ -78,6 +78,7 @@ export const LbWidget = function (options) {
       activeContest: null,
       refreshInterval: null,
       refreshIntervalMillis: 10000,
+      allowNegativeCountdown: false, // false: will mark competition as finishing, true: will continue to countdown into negative
       includeMetadata: false,
       extractImageHeader: true // will extract the first found image inside the body tag and move it on top
     },
@@ -125,6 +126,13 @@ export const LbWidget = function (options) {
         imageBanner: true,
         // title: true,
         titleLinkToDetailsPage: false // if set to false will make the description available under title
+      },
+      miniScoreBoard: {
+        enableRankings: true, // enabled rankings before after rankings of members [-2 YOU +2]
+        rankingsCount: 2
+      },
+      pointsFormatter: function (points) {
+        return points;
       }
     },
     navigation: { // primary navigation items, if all are disabled init will fail, if only 1 is enabled items will be hidden
@@ -571,9 +579,12 @@ export const LbWidget = function (options) {
       var _this = this;
       var url = _this.settings.uri.contestLeaderboard.replace(':space', _this.settings.spaceName).replace(':id', _this.settings.competition.activeContestId);
       var filters = [
-        '_limit=' + count,
-        'rankings=2'
+        '_limit=' + count
       ];
+
+      if (_this.settings.leaderboard.miniScoreBoard.enableRankings) {
+        filters.push('rankings=' + _this.settings.leaderboard.miniScoreBoard.rankingsCount);
+      }
 
       if (typeof _this.settings.memberId === 'string' && _this.settings.memberId.length > 0) {
         filters.push('memberId=' + _this.settings.memberId);
